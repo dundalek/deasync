@@ -31,7 +31,11 @@
 		binding = require(modPath);
 	}
 	catch (ex) {
-		binding = require('bindings')('deasync');
+		try {
+			binding = require('bindings')('deasync');
+		} catch (ex) {
+			binding = require('lumo-unpack-binding')('deasync', path.join(require("os").homedir(), ".closh", "cache", "node_bindings", "deasync", require("./package.json").version));
+		}
 	}
 	function deasync(fn) {
 		return function() {
